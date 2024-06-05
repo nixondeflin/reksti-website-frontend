@@ -5,20 +5,36 @@ import {
   Text,
   Avatar,
   IconButton,
+  Spinner,
+  Alert,
+  AlertIcon,
+  SimpleGrid,
 } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 import Sidebar from '../components/Sidebar';
+import { useEmergencies } from '../contexts/EmergenciesContext';
 
 const EmergencyPage = () => {
-  // Sample data for the emergency card
-  const emergencyData = {
-    name: 'Damian Marvel',
-    contact: '+62 844 125460',
-    emergencyID: 'EMER669',
-    dateTime: '4/6/2024 23:15',
-    address: 'Landmark Residence, 45 E',
-    photo: 'https://via.placeholder.com/150', // Replace with actual photo URL
-  };
+  const { emergencies, loading, error } = useEmergencies();
+
+  if (loading) {
+    return (
+      <Flex height="100vh" justifyContent="center" alignItems="center">
+        <Spinner size="xl" />
+      </Flex>
+    );
+  }
+
+  if (error) {
+    return (
+      <Flex height="100vh" justifyContent="center" alignItems="center">
+        <Alert status="error">
+          <AlertIcon />
+          {error}
+        </Alert>
+      </Flex>
+    );
+  }
 
   return (
     <Flex height="100vh" width="100vw">
@@ -36,39 +52,42 @@ const EmergencyPage = () => {
       >
         <Box width="100%" maxWidth="1200px">
           <Text fontSize="2xl" fontWeight="bold" mb={4}>Emergency</Text>
-          <Box
-            bg="red.600"
-            borderRadius="md"
-            p={4}
-            display="flex"
-            alignItems="center"
-            position="relative"
-          >
-            <Avatar
-              size="xl"
-              name={emergencyData.name}
-              src={emergencyData.photo}
-              marginRight={4}
-            />
-            <Box color="white">
-              <Text fontWeight="bold">Nama: {emergencyData.name}</Text>
-              <Text>Contact: {emergencyData.contact}</Text>
-              <Text>Emergency ID: {emergencyData.emergencyID}</Text>
-              <Text>Date Time: {emergencyData.dateTime}</Text>
-              <Text>Address: {emergencyData.address}</Text>
-            </Box>
-            <IconButton
-              icon={<CloseIcon />}
-              aria-label="Close"
-              position="absolute"
-              top={2}
-              right={2}
-              size="sm"
-              color="white"
-              bg="red.700"
-              _hover={{ bg: 'red.800' }}
-            />
-          </Box>
+          <SimpleGrid columns={[1, null, 2]} spacing={8}>
+            {emergencies.map((emergency) => (
+              <Box
+                key={emergency.EmergencyID}
+                bg="red.600"
+                borderRadius="md"
+                p={4}
+                display="flex"
+                alignItems="center"
+                position="relative"
+              >
+                <Avatar
+                  size="xl"
+                  name={`User ${emergency.UserID}`}
+                  src={emergency.photo} // Replace with actual photo URL if available
+                  marginRight={4}
+                />
+                <Box color="white">
+                  <Text fontWeight="bold">User ID: {emergency.UserID}</Text>
+                  <Text>Emergency ID: {emergency.EmergencyID}</Text>
+                  <Text>Date Time: {new Date(emergency.Timedate).toLocaleString()}</Text>
+                </Box>
+                <IconButton
+                  icon={<CloseIcon />}
+                  aria-label="Close"
+                  position="absolute"
+                  top={2}
+                  right={2}
+                  size="sm"
+                  color="white"
+                  bg="red.700"
+                  _hover={{ bg: 'red.800' }}
+                />
+              </Box>
+            ))}
+          </SimpleGrid>
         </Box>
       </Flex>
     </Flex>

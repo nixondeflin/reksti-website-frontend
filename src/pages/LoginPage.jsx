@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
-import { Box, Button, Flex, FormControl, FormLabel, Input, Image, Text, Alert, AlertIcon, AlertTitle, AlertDescription, Stack } from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormLabel, Input, Image, Text, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react';
 import UnderlineInput from '../components/UnderlineInput';
 import UnderlinedButton from '../components/UnderlinedButton';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthenticationContext';
 
 const LoginPage = ({ errmsg }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here, e.g., send data to the backend
+    setError(''); // Clear previous errors
+    const result = await login(username, password);
+    console.log(result)
+    if (result.success) {
+      navigate('/guest'); // Navigate to the dashboard or home page on successful login
+    } else {
+      setError(result.error);
+    }
   };
 
   return (
@@ -37,12 +49,12 @@ const LoginPage = ({ errmsg }) => {
         p={8}
       >
         <Box width="100%" maxWidth="md">
-          {errmsg && (
+          {error && (
             <Alert status="error" marginBottom={4}>
               <AlertIcon />
               <Box flex="1">
                 <AlertTitle>Error</AlertTitle>
-                <AlertDescription>{errmsg}</AlertDescription>
+                <AlertDescription>{error}</AlertDescription>
               </Box>
             </Alert>
           )}
@@ -58,12 +70,12 @@ const LoginPage = ({ errmsg }) => {
               />
             </FormControl>
             <FormControl id="password" marginBottom={6}>
-                <UnderlineInput
-                    type="text"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+              <UnderlineInput
+                type="password" // Changed to password type
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </FormControl>
             <Box marginY={8} marginX={10}>
                 <Button type="submit" width="full" colorScheme="teal" marginBottom={2}>Sign in</Button>

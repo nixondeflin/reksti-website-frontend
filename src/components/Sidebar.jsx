@@ -1,9 +1,18 @@
 import React from 'react';
 import { Box, Button, VStack, Icon, Text } from '@chakra-ui/react';
 import { FaUser, FaList, FaBell, FaSignOutAlt, FaLock } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthenticationContext';
 
 const Sidebar = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login'); // Redirect to the login page after logout
+  };
+
   return (
     <Box
       height="100vh"
@@ -74,10 +83,12 @@ const Sidebar = () => {
       </VStack>
       <Button
         variant="ghost"
+        justifyContent="flex-start"
         leftIcon={<Icon as={FaSignOutAlt} />}
         width="100%"
         color="white"
         _hover={{ bg: 'whiteAlpha.300' }}
+        onClick={handleLogout}
       >
         Logout
       </Button>
