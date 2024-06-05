@@ -5,6 +5,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Input,
   Text,
   VStack,
@@ -15,6 +16,7 @@ import {
 import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import { useAccessList } from '../contexts/AccessListContext';
+import { v4 as uuidv4 } from 'uuid';
 
 const GuestPage = () => {
   const [name, setName] = useState('');
@@ -24,6 +26,7 @@ const GuestPage = () => {
   const [resident, setResident] = useState('');
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
+  const [errors, setErrors] = useState({});
   const { addAccessItem } = useAccessList(); // Get the addAccessItem function from context
   const toast = useToast();
 
@@ -58,15 +61,33 @@ const GuestPage = () => {
     }
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!name) newErrors.name = "Name is required";
+    if (!contact) newErrors.contact = "Contact is required";
+    if (!address) newErrors.address = "Address is required";
+    if (!need) newErrors.need = "Need is required";
+    if (!resident) newErrors.resident = "Resident/Guest is required";
+    return newErrors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const uploadedImageUrl = await handleImageUpload();
-    if (!uploadedImageUrl) return;
+
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+
+    // const uploadedImageUrl = await handleImageUpload();
+    // if (!uploadedImageUrl) return;
+    const uploadedImageUrl=''
 
     // Create a new item to add
     const newItem = {
-      tamuID: 'AQ0002', // You might want to generate this ID dynamically
-      cardID: 'ELIJA124', // You might want to generate this ID dynamically
+      tamuID: uuidv4(), // Generate unique ID for tamuID
+      cardID: uuidv4(), // Generate unique ID for cardID
       name,
       guestResident: resident,
       tujuan: address,
@@ -94,16 +115,18 @@ const GuestPage = () => {
     setResident('');
     setImage(null);
     setImageUrl('');
+    setErrors({});
   };
 
   return (
-    <Flex height="100vh" width="100vw">
+    <Flex width="100vw">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Content */}
       <Flex
         width={['100%', '100%', '60%']}
+        ml={['0', '0', '20%']} 
         flexDirection="column"
         p={8}
         bg="gray.50"
@@ -125,8 +148,7 @@ const GuestPage = () => {
                 />
               </FormControl>
               <HStack width="100%" spacing={4}>
-                
-                <FormControl id="name">
+                <FormControl id="name" isInvalid={errors.name}>
                   <FormLabel>Name</FormLabel>
                   <Input
                     type="text"
@@ -134,8 +156,9 @@ const GuestPage = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
+                  <FormErrorMessage>{errors.name}</FormErrorMessage>
                 </FormControl>
-                <FormControl id="contact">
+                <FormControl id="contact" isInvalid={errors.contact}>
                   <FormLabel>Contact</FormLabel>
                   <Input
                     type="text"
@@ -143,9 +166,10 @@ const GuestPage = () => {
                     value={contact}
                     onChange={(e) => setContact(e.target.value)}
                   />
+                  <FormErrorMessage>{errors.contact}</FormErrorMessage>
                 </FormControl>
               </HStack>
-              <FormControl id="address">
+              <FormControl id="address" isInvalid={errors.address}>
                 <FormLabel>Destination Address</FormLabel>
                 <Input
                   type="text"
@@ -153,8 +177,9 @@ const GuestPage = () => {
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
+                <FormErrorMessage>{errors.address}</FormErrorMessage>
               </FormControl>
-              <FormControl id="need">
+              <FormControl id="need" isInvalid={errors.need}>
                 <FormLabel>Need</FormLabel>
                 <Input
                   type="text"
@@ -162,8 +187,9 @@ const GuestPage = () => {
                   value={need}
                   onChange={(e) => setNeed(e.target.value)}
                 />
+                <FormErrorMessage>{errors.need}</FormErrorMessage>
               </FormControl>
-              <FormControl id="resident">
+              <FormControl id="resident" isInvalid={errors.resident}>
                 <FormLabel>Resident / Guest?</FormLabel>
                 <Input
                   type="text"
@@ -171,6 +197,7 @@ const GuestPage = () => {
                   value={resident}
                   onChange={(e) => setResident(e.target.value)}
                 />
+                <FormErrorMessage>{errors.resident}</FormErrorMessage>
               </FormControl>
             </VStack>
             <HStack spacing={4} mt={8}>

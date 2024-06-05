@@ -62,6 +62,7 @@ const ListAccessPage = () => {
       {/* Main Content */}
       <Flex
         width={['100%', '100%', '80%']}
+        ml={['0', '0', '20%']} 
         flexDirection="column"
         p={8}
         bg="gray.50"

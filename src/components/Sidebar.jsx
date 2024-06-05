@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 const Sidebar = () => {
   return (
     <Box
+      height="100vh"
       width={['100%', '100%', '20%']}
       bg="#001F54"
       color="white"
@@ -13,6 +14,7 @@ const Sidebar = () => {
       flexDirection="column"
       alignItems="center"
       justifyContent="space-between"
+      position="fixed"
       p={8}
     >
       <VStack spacing={8} align="flex-start" width="100%">
