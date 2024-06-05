@@ -36,30 +36,39 @@ const AuthorizationPage = () => {
     if (message) {
       const timer = setTimeout(() => {
         setMessage('');
-      }, 4000);
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
   }, [message]);
 
   return (
-    <Flex width="100vw">
+    <Flex height="100vh" width="100vw">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Content */}
       <Flex
-        width={['100%', '100%', '80%']}
-        ml={['0', '0', '20%']}
+        flex={1}
         flexDirection="column"
         p={8}
         bg="gray.50"
         alignItems="center"
+        justifyContent="center"
+        ml={['0', '0', '20%']}
       >
-        <Box width="100%" maxWidth="800px">
+        <Box width="100%" maxWidth="800px" textAlign="center">
           <Text fontSize="2xl" fontWeight="bold" mb={4}>Resident Authorization</Text>
-          <Box width="100%" height="200px" bg="gray.300" mb={8} display="flex" justifyContent="center" alignItems="center">
-            <Text fontSize="xl" fontWeight="bold">{message}</Text>
+          <Box
+            width="100%"
+            height="200px"
+            bg={message === "Authorized, gate opening" ? "green.300" : message === "Access Denied" ? "red.300" : "gray.300"}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            borderRadius="md"
+          >
+            <Text fontSize="xl" fontWeight="bold">{message || "Awaiting Scan..."}</Text>
           </Box>
         </Box>
       </Flex>
