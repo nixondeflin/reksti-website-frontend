@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, VStack, Icon, Text } from '@chakra-ui/react';
-import { FaUser, FaList, FaBell, FaSignOutAlt } from 'react-icons/fa';
+import { FaUser, FaList, FaBell, FaSignOutAlt, FaLock } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
@@ -57,6 +57,18 @@ const Sidebar = () => {
             _hover={{ bg: 'whiteAlpha.300' }}
           >
             Emergency
+          </Button>
+          <Button
+            as={Link}
+            to="/authorization"
+            variant="ghost"
+            justifyContent="flex-start"
+            leftIcon={<Icon as={FaLock} />}
+            width="100%"
+            color="white"
+            _hover={{ bg: 'whiteAlpha.300' }}
+          >
+            Authorization
           </Button>
         </VStack>
       </VStack>
