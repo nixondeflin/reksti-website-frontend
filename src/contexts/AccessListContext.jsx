@@ -15,7 +15,8 @@ export const AccessListProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    filterByDay(dayjs());
+    // filterByDay(dayjs());
+    sortAccessList('Datetime','desc')
   }, [accessList]);
 
   const addAccessItem = (newItem) => {
@@ -85,16 +86,18 @@ export const AccessListProvider = ({ children }) => {
     }
   };
 
-  const filterByDay = (date) => {
+  const filterByDay = (date,field,order) => {
     const selectedDate = dayjs(date).startOf('day');
     const filtered = accessList.filter((item) =>
       dayjs(item.Datetime).startOf('day').isSame(selectedDate.add(1, 'day'), 'day')
     );
     setFilteredAccessList(filtered);
+    // sortAccessList(field,order)
+
   };
   
 
-  const filterByWeek = (date) => {
+  const filterByWeek = (date,field,order) => {
     const startOfWeek = dayjs(date).startOf('week');
     const endOfWeek = dayjs(date).endOf('week');
     const filtered = accessList.filter((item) =>

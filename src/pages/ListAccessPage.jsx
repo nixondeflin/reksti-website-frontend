@@ -30,8 +30,8 @@ const ListAccessPage = () => {
   } = useAccessList();
   const toast = useToast();
   const [date, setDate] = useState('');
-  const [sortField, setSortField] = useState('');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortField, setSortField] = useState('Datetime');
+  const [sortOrder, setSortOrder] = useState('desc');
 
   const handleDelete = (no) => {
     deleteGuest(no);
@@ -56,11 +56,11 @@ const ListAccessPage = () => {
   };
 
   const handleFilterByDay = () => {
-    filterByDay(date);
+    filterByDay(date,sortField,sortOrder);
   };
 
   const handleFilterByWeek = () => {
-    filterByWeek(date);
+    filterByWeek(date,sortField,sortOrder);
   };
 
   const handleSort = () => {
@@ -120,8 +120,8 @@ const ListAccessPage = () => {
               onChange={(e) => setSortOrder(e.target.value)}
               mr={2}
             >
-              <option value="asc">Ascending</option>
               <option value="desc">Descending</option>
+              <option value="asc">Ascending</option>
             </Select>
             <Button onClick={handleSort}>Sort</Button>
           </Flex>
