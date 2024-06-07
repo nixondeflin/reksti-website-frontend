@@ -10,6 +10,7 @@ import { AccessListProvider } from './contexts/AccessListContext';
 import { AuthProvider } from './contexts/AuthenticationContext';
 import PrivateRoute from './components/PrivateRoute'; // Import the PrivateRoute component
 import { EmergenciesProvider } from './contexts/EmergenciesContext';
+import ResidentPage from './pages/ResidentPage';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/authorization" element={<PrivateRoute element={AuthorizationPage} />} />
             <Route path="/guest" element={<PrivateRoute element={GuestPage} />} />
             <Route path="/list-access" element={<PrivateRoute element={ListAccessPage} />} />
+            <Route path="/resident" element={<PrivateRoute element={ResidentPage} />} />
             <Route path="/emergency" element={<PrivateRoute element={EmergencyPage} />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />

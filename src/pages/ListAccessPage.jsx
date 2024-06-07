@@ -156,7 +156,7 @@ const ListAccessPage = () => {
                       {item.Status === 'In' && (
                         <Button
                           colorScheme="blue"
-                          onClick={() => handleUpdateStatus(item.no)}
+                          onClick={() => handleUpdateStatus(item.No)}
                           mr={2}
                         >
                           Set to Out

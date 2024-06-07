@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [userID, setUserID] = useState(null);
+  const [users,setUsers] = useState(null)
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,6 +18,18 @@ export const AuthProvider = ({ children }) => {
     };
     loadUser();
   }, []);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axiosInstance.get('/users');
+        setUsers(response.data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+    fetchUsers();
+  }, []); 
 
   const login = async (email, password) => {
     try {
@@ -38,8 +51,6 @@ export const AuthProvider = ({ children }) => {
       const response = await axiosInstance.post('/signup', { Email:email, Password:password });
       if (response.status === 201) {
         const user = response.data;
-        setUserID(user.user.userID);
-        localStorage.setItem('user', JSON.stringify(user));
         return { success: true };
       }
     } catch (error) {
@@ -53,8 +64,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
   };
 
+
+
+
   return (
-    <AuthContext.Provider value={{ userID, loading, login, logout, signup }}>
+    <AuthContext.Provider value={{ users,userID, loading, login, logout, signup }}>
       {children}
     </AuthContext.Provider>
   );

@@ -23,8 +23,17 @@ export const EmergenciesProvider = ({ children }) => {
     fetchEmergencies();
   }, []);
 
+  const deleteEmergency = async (id) => {
+    try {
+      await axiosInstance.delete(`/emergencies/${id}`);
+      setEmergencies((prev) => prev.filter((emergency) => emergency.EmergencyID !== id));
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
-    <EmergenciesContext.Provider value={{ emergencies, loading, error }}>
+    <EmergenciesContext.Provider value={{ emergencies, loading, error, deleteEmergency }}>
       {children}
     </EmergenciesContext.Provider>
   );

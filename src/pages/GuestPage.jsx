@@ -11,12 +11,14 @@ import {
   VStack,
   HStack,
   useToast,
-  Image
+  Image,
+  Select
 } from '@chakra-ui/react';
 import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import { useAccessList } from '../contexts/AccessListContext';
 import { v4 as uuidv4 } from 'uuid';
+import { useAuth } from '../contexts/AuthenticationContext';
 
 const GuestPage = () => {
   const [name, setName] = useState('');
@@ -27,6 +29,7 @@ const GuestPage = () => {
   const { addAccessItem,accessList,uploadPhoto, addGuest } = useAccessList(); // Get the addAccessItem function from context
   const toast = useToast();
   const fileInputRef = useRef(null);
+  const { users, loading, error } = useAuth();
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -93,10 +96,10 @@ const GuestPage = () => {
       {/* Main Content */}
       <Flex
         width={['100%', '100%', '60%']}
+        height="100vh"
         ml={['0', '0', '20%']} 
         flexDirection="column"
         p={8}
-        bg="gray.50"
         alignItems="center"
       >
         <Box width="100%" maxWidth="800px">
@@ -129,7 +132,7 @@ const GuestPage = () => {
                 </FormControl>
                
               </HStack>
-              <FormControl id="need" isInvalid={errors.need}>
+              {/* <FormControl id="need" isInvalid={errors.need}>
                 <FormLabel>Address</FormLabel>
                 <Input
                   type="text"
@@ -137,6 +140,21 @@ const GuestPage = () => {
                   value={need}
                   onChange={(e) => setNeed(e.target.value)}
                 />
+                <FormErrorMessage>{errors.need}</FormErrorMessage>
+              </FormControl> */}
+                      <FormControl id="need" isInvalid={errors.need}>
+                <FormLabel>Destination</FormLabel>
+                <Select
+                  placeholder="Select destination"
+                  value={need}
+                  onChange={(e) => setNeed(e.target.value)}
+                >
+                  {users&&users.map((user) => (
+                    <option key={user.id} value={user.Alamat}>
+                      {user.Alamat}
+                    </option>
+                  ))}
+                </Select>
                 <FormErrorMessage>{errors.need}</FormErrorMessage>
               </FormControl>
  

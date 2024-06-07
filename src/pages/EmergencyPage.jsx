@@ -15,7 +15,11 @@ import Sidebar from '../components/Sidebar';
 import { useEmergencies } from '../contexts/EmergenciesContext';
 
 const EmergencyPage = () => {
-  const { emergencies, loading, error } = useEmergencies();
+  const { emergencies, loading, error, deleteEmergency } = useEmergencies();
+
+  const handleDelete = (id) => {
+    deleteEmergency(id);
+  };
 
   if (loading) {
     return (
@@ -53,7 +57,9 @@ const EmergencyPage = () => {
         <Box width="100%" maxWidth="1200px">
           <Text fontSize="2xl" fontWeight="bold" mb={4}>Emergency</Text>
           <SimpleGrid columns={[1, null, 2]} spacing={8}>
-            {emergencies.map((emergency) => (
+            {emergencies.length!=0
+            ?
+            emergencies.map((emergency) => (
               <Box
                 key={emergency.EmergencyID}
                 bg="red.600"
@@ -84,9 +90,16 @@ const EmergencyPage = () => {
                   color="white"
                   bg="red.700"
                   _hover={{ bg: 'red.800' }}
+                  onClick={() => handleDelete(emergency.EmergencyID)}
                 />
               </Box>
-            ))}
+            ))
+            :<Box p={4} bg="gray.100" borderRadius="md" textAlign="center">
+            <Text fontSize="lg" fontWeight="bold" color="gray.600">
+              No Emergencies
+            </Text>
+          </Box>
+          }
           </SimpleGrid>
         </Box>
       </Flex>

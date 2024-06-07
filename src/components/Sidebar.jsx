@@ -57,6 +57,18 @@ const Sidebar = () => {
           </Button>
           <Button
             as={Link}
+            to="/resident"
+            variant="ghost"
+            justifyContent="flex-start"
+            leftIcon={<Icon as={FaUser} />}
+            width="100%"
+            color="white"
+            _hover={{ bg: 'whiteAlpha.300' }}
+          >
+            Resident
+          </Button>
+          <Button
+            as={Link}
             to="/emergency"
             variant="ghost"
             justifyContent="flex-start"
