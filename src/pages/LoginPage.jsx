@@ -77,7 +77,7 @@ const LoginPage = ({ errmsg }) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </FormControl>
-            <Box marginY={8} marginX={10}>
+            {/* <Box marginY={8} marginX={10}>
                 <Button type="submit" width="full" colorScheme="teal" marginBottom={2}>Sign in</Button>
                 <UnderlinedButton
                     width="full"
@@ -87,7 +87,7 @@ const LoginPage = ({ errmsg }) => {
                 >
                     Register
                  </UnderlinedButton>
-            </Box>
+            </Box> */}
      
           </form>
         </Box>
