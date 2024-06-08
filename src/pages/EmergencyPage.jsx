@@ -93,7 +93,7 @@ const EmergencyPage = () => {
                     marginRight={4}
                   />
                   <Box color="white">
-                    <Text fontWeight="bold">User ID: {emergency.Alamat}</Text>
+                    <Text fontWeight="bold">Alamat: {emergency.Alamat}</Text>
                     <Text>Emergency ID: {emergency.EmergencyID}</Text>
                     <Text>Date Time: {new Date(emergency.Timedate).toLocaleString()}</Text>
                   </Box>

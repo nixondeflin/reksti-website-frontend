@@ -77,17 +77,17 @@ const LoginPage = ({ errmsg }) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </FormControl>
-            {/* <Box marginY={8} marginX={10}>
+            <Box marginY={8} marginX={10}>
                 <Button type="submit" width="full" colorScheme="teal" marginBottom={2}>Sign in</Button>
-                <UnderlinedButton
+                {/* <UnderlinedButton
                     width="full"
                     colorScheme="teal"
                     marginBottom={2}
                     to="/signup" // Set the path to navigate to
                 >
                     Register
-                 </UnderlinedButton>
-            </Box> */}
+                 </UnderlinedButton> */}
+            </Box>
      
           </form>
         </Box>

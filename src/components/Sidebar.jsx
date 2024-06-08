@@ -1,17 +1,20 @@
 import React from 'react';
 import { Box, Button, VStack, Icon, Text } from '@chakra-ui/react';
 import { FaUser, FaList, FaBell, FaSignOutAlt, FaLock } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthenticationContext';
 
 const Sidebar = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
     await logout();
     navigate('/login'); // Redirect to the login page after logout
   };
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <Box
@@ -38,7 +41,7 @@ const Sidebar = () => {
             justifyContent="flex-start"
             leftIcon={<Icon as={FaUser} />}
             width="100%"
-            color="white"
+            color={isActive('/guest') ? 'yellow.400' : 'white'}
             _hover={{ bg: 'whiteAlpha.300' }}
           >
             Guest
@@ -50,7 +53,7 @@ const Sidebar = () => {
             justifyContent="flex-start"
             leftIcon={<Icon as={FaList} />}
             width="100%"
-            color="white"
+            color={isActive('/list-access') ? 'yellow.400' : 'white'}
             _hover={{ bg: 'whiteAlpha.300' }}
           >
             List Access
@@ -62,7 +65,7 @@ const Sidebar = () => {
             justifyContent="flex-start"
             leftIcon={<Icon as={FaUser} />}
             width="100%"
-            color="white"
+            color={isActive('/resident') ? 'yellow.400' : 'white'}
             _hover={{ bg: 'whiteAlpha.300' }}
           >
             Resident
@@ -74,7 +77,7 @@ const Sidebar = () => {
             justifyContent="flex-start"
             leftIcon={<Icon as={FaBell} />}
             width="100%"
-            color="white"
+            color={isActive('/emergency') ? 'yellow.400' : 'white'}
             _hover={{ bg: 'whiteAlpha.300' }}
           >
             Emergency
@@ -86,7 +89,7 @@ const Sidebar = () => {
             justifyContent="flex-start"
             leftIcon={<Icon as={FaLock} />}
             width="100%"
-            color="white"
+            color={isActive('/authorization') ? 'yellow.400' : 'white'}
             _hover={{ bg: 'whiteAlpha.300' }}
           >
             Authorization
